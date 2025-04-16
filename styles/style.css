@@ -1,0 +1,105 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Prevent scrolling */
+    display: flex;
+    flex-direction: column;
+}
+
+#header {
+    width: 100%;
+    height: 50px;
+    background-color: #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between title and icon */
+}
+
+#title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#info-icon {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#info-dialog {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 20px; /* Adjusted to align with the title-container */
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    width: 200px;
+    box-sizing: border-box;
+}
+
+#container {
+    flex: 1;
+    width: 100vw; /* Full viewport width */
+    height: calc(100vh - 50px); /* Subtract header height */
+    display: grid;
+    grid-template-rows: 1fr 10px 1fr; /* Top, slider, bottom */
+    grid-template-columns: 1fr 10px 1fr; /* Left, slider, right */
+    box-sizing: border-box;
+}
+
+#top {
+    display: grid;
+    grid-template-columns: 1fr 10px 1fr; /* Left, slider, right */
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+}
+
+#left, #right, #bottom {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+#left img, #right img, #bottom img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Maintain aspect ratio and fit within the container */
+}
+
+.slider {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+#vertical-slider {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    width: 10px;
+    cursor: ew-resize;
+}
+
+#horizontal-slider {
+    grid-column: 1 / 4;
+    grid-row: 2 / 3;
+    height: 10px;
+    cursor: ns-resize;
+}
