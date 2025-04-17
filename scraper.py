@@ -47,4 +47,4 @@ else:
 print(full_dataframe.iloc[4]['Timestamp'] + " - " + full_dataframe.iloc[4]['Character'] + ": " + full_dataframe.iloc[4]['Dialogue'])
 # Write the dataframe to a CSV file
 output_filename = espiode_name.replace(" (Transcript)", "").replace(" ", "_").replace(":", "_").replace("/", "_")
-full_dataframe.to_csv(f'{output_filename}.csv', index=False)
+full_dataframe.to_csv(f'./TV-time/episode_transcripts/{output_filename}.csv', index=False)
