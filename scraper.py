@@ -82,5 +82,5 @@ for episode in season1_episodes:
 j = 0
 for episode in season2_episodes:
     j+=1
-    full_dataframe = pd.DataFrame(get_data(episode, 2, i, full_dataframe))
+    full_dataframe = pd.DataFrame(get_data(episode, 2, j, full_dataframe))
 full_dataframe.to_csv('./data/full_transcript.csv', index=False)
