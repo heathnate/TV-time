@@ -72,3 +72,95 @@ function setDefaultSizes() {
 // Initialize default sizes on load
 window.addEventListener('load', setDefaultSizes);
 window.addEventListener('resize', setDefaultSizes); // Adjust sizes on window resize
+
+// Simple CSV line parser that handles quoted fields
+function parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+  
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      if (char === '"' && line[i + 1] === '"') {
+        current += '"'; // Handle escaped quotes
+        i++; // Skip the next quote
+      } else if (char === '"') {
+        inQuotes = !inQuotes; // Toggle inQuotes
+      } else if (char === ',' && !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current); // Add last field
+    return result;
+}
+
+function flattenWordCounts(wordCounts) {
+    const flatData = [];
+  
+    for (const season in wordCounts) {
+      const episodes = wordCounts[season];
+      for (const episode in episodes) {
+        const characters = episodes[episode];
+        for (const character in characters) {
+          flatData.push({
+            season: +season,
+            episode: +episode,
+            character: character,
+            value: characters[character]
+          });
+        }
+      }
+    }
+  
+    return flatData;
+}
+  
+
+d3.csv('data/full_transcript.csv')
+  .then(data => {
+    const wordCounts = {};
+
+    // Get the word count for each character in each episode
+    data.forEach(row => {
+      const season = row['Season'];
+      const episode = row['Episode Number'];
+      const character = row['Character'];
+      const dialogue = row['Dialogue'];
+
+      const wordCount = dialogue.trim().split(/\s+/).filter(w => w).length;
+
+      if (!wordCounts[season]) wordCounts[season] = {};
+      if (!wordCounts[season][episode]) wordCounts[season][episode] = {};
+      if (!wordCounts[season][episode][character]) wordCounts[season][episode][character] = 0;
+
+      wordCounts[season][episode][character] += wordCount;
+    });
+
+    // Get a list of all unique characters
+    const characterSet = new Set();
+
+    data.forEach(row => {
+      const character = row['Character']?.trim();
+      if (character) {
+        characterSet.add(character);
+      }
+    });
+
+    const characters = Array.from(characterSet).sort();
+    const flattened = flattenWordCounts(wordCounts).map(d => ({
+        ...d,
+        episodeId:`S${d.season}E${d.episode}`
+    }));
+
+    const heatmapData = {
+        characters: characters,
+        wordCounts: flattened
+    };
+
+    const heatmap = new Heatmap(heatmapData, {parentElement: '#left'});
+
+  })
+  .catch(error => console.error(error));

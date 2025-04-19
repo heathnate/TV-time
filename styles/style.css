@@ -74,6 +74,7 @@ body, html {
     border: 1px solid #ccc;
     box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden; /* Ensure content doesn't overflow */
@@ -102,4 +103,22 @@ body, html {
     grid-row: 2 / 3;
     height: 10px;
     cursor: ns-resize;
+}
+
+#season-select {
+    position: fixed;
+    top: 30px;
+    left: 10px;
+    margin-top: 25px;
+}
+
+.tooltip {
+    box-shadow: 3px 3px 3px 0px rgb(92 92 92 / 0.5);
+    border: 1px solid #ddd;
+    min-width: 80px;
+    padding-right: 5px;
+    width: auto;
+    height: 60px;
+    background: #fff;
+    position: absolute;
 }

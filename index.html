@@ -16,7 +16,13 @@
     <div id="container">
         <div id="top">
             <div id="left">
-                <img src="assets/frequency-bars-mockup.png">
+                <select id="season-select" class="select" onchange="heatmap.updateSeason(this.value)">
+                    <option value="all">All Seasons</option> 
+                    <option value="season1">Season 1</option>
+                    <option value="season2">Season 2</option>
+                </select>
+                <div id="heatmap"></div>
+                <!-- <img src="assets/frequency-bars-mockup.png"> -->
             </div>
             <div id="right">
                 <img src="assets/arc-diagram-mockup.png">
@@ -28,6 +34,9 @@
             <img src="assets/word-cloud-mockup.png">
         </div>
     </div>
+    
+    <script src="js/d3.v6.min.js"></script>
+    <script src="js/heatmap.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
