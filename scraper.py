@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests as req
 import pandas as pd
 
-full_dataframe = pd.DataFrame(columns=['Season', 'Episode Number', 'Episode Title', 'Character', 'Dialogue', 'Timestamp'])
+full_dataframe = pd.DataFrame(columns=['Season', 'Episode Number', 'Episode Title', 'Character', 'Dialogue', 'Timestamp', 'TalkingTo'])
 season1_episodes = [
     "https://severance.wiki/good_news_about_hell_transcript",
     "https://severance.wiki/half_loop_transcript",
@@ -75,6 +75,7 @@ def get_data(url, season, episode, dataframe):
 # Write the dataframe to a CSV file
 # output_filename = espiode_name.replace(" (Transcript)", "").replace(" ", "_").replace(":", "_").replace("/", "_")
 # full_dataframe.to_csv(f'./TV-time/episode_transcripts/{output_filename}.csv', index=False)
+
 i = 0
 for episode in season1_episodes:
     i+=1
@@ -83,4 +84,46 @@ j = 0
 for episode in season2_episodes:
     j+=1
     full_dataframe = pd.DataFrame(get_data(episode, 2, j, full_dataframe))
+
+# Ensure the Timestamp column is sorted and converted to a comparable format
+full_dataframe['Timestamp'] = pd.to_datetime(full_dataframe['Timestamp'], format='%H:%M:%S', errors='coerce')
+
+# Drop rows with NaT in the Timestamp column
+full_dataframe = full_dataframe.dropna(subset=['Timestamp']).reset_index(drop=True)
+
+# Sort the DataFrame by Season, Episode Number, and Timestamp to ensure proper order
+full_dataframe = full_dataframe.sort_values(by=['Season', 'Episode Number', 'Timestamp']).reset_index(drop=True)
+
+# Process the DataFrame to populate the TalkingTo column based on closest timestamp within the same episode
+for (season, episode), group in full_dataframe.groupby(['Season', 'Episode Number']):
+    group_indices = group.index  # Get the indices of the group
+    for i in group_indices:
+        current_character = full_dataframe.at[i, 'Character']
+        current_timestamp = full_dataframe.at[i, 'Timestamp']
+        talking_to = None
+        min_time_diff = pd.Timedelta.max  # Initialize with a very large time difference
+
+        # Look for the closest other character in terms of timestamp within the same group
+        for j in group_indices:
+            if i == j:
+                continue  # Skip the current row
+            next_character = full_dataframe.at[j, 'Character']
+            next_timestamp = full_dataframe.at[j, 'Timestamp']
+
+            # Skip rows with NaT in the Timestamp column
+            if pd.isna(next_timestamp) or pd.isna(current_timestamp):
+                continue
+
+            time_diff = abs(next_timestamp - current_timestamp)
+
+            if next_character != current_character and time_diff < min_time_diff:
+                talking_to = next_character
+                min_time_diff = time_diff
+
+        # Assign the found character to the TalkingTo column
+        full_dataframe.at[i, 'TalkingTo'] = talking_to
+
+print(full_dataframe.head())  # Display the first few rows of the dataframe
+
+# Write the DataFrame to a CSV file
 full_dataframe.to_csv('./data/full_transcript.csv', index=False)
