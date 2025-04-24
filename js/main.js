@@ -7,6 +7,8 @@ const bottom = document.getElementById('bottom');
 const infoIcon = document.getElementById('info-icon');
 const infoDialog = document.getElementById('info-dialog');
 
+let heatmap;
+
 let isDraggingVertical = false;
 let isDraggingHorizontal = false;
 
@@ -160,7 +162,7 @@ d3.csv('data/full_transcript.csv')
         wordCounts: flattened
     };
 
-    const heatmap = new Heatmap(heatmapData, {parentElement: '#left'});
+    heatmap = new Heatmap(heatmapData, {parentElement: '#left'});
 
   })
   .catch(error => console.error(error));
