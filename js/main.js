@@ -152,17 +152,58 @@ d3.csv('data/full_transcript.csv')
     });
 
     const characters = Array.from(characterSet).sort();
+
+    // Flatten word counts for heatmap
     const flattened = flattenWordCounts(wordCounts).map(d => ({
-        ...d,
-        episodeId:`S${d.season}E${d.episode}`
+      ...d,
+      episodeId: `S${d.season}E${d.episode}`
     }));
 
+    // Prepare heatmap data
     const heatmapData = {
-        characters: characters,
-        wordCounts: flattened
+      characters: characters,
+      wordCounts: flattened
     };
 
-    heatmap = new Heatmap(heatmapData, {parentElement: '#left'});
+    // Prepare word cloud data
+    const wordCloudData = data.flatMap(row => {
+      const season = row['Season'];
+      const episode = row['Episode Number'];
+      const character = row['Character'];
+      const dialogue = row['Dialogue'];
 
+      const words = dialogue.trim().split(/\s+/).filter(w => w);
+      return words.map(word => ({
+        season,
+        episode,
+        character,
+        word,
+        frequency: 1 // Each word appears once in the dialogue
+      }));
+    });
+
+    // Aggregate word frequencies for the word cloud
+    const aggregatedWordCloudData = d3.rollups(
+      wordCloudData,
+      v => v.length,
+      d => `${d.season}-${d.episode}-${d.character}-${d.word}`
+    ).map(([key, frequency]) => {
+      const [season, episode, character, word] = key.split('-');
+      return { season, episode, character, word, frequency };
+    });
+
+    // Initialize visualizations
+    const heatmap = new Heatmap(heatmapData, { parentElement: '#left' });
+    //const wordCloud = new WordCloud(aggregatedWordCloudData, { parentElement: '#bottom-left' });
+
+    // Add filtering logic for the word cloud
+    const seasonSelect = document.getElementById('season-select');
+    seasonSelect.addEventListener('change', () => {
+      const selectedSeason = seasonSelect.value;
+      const filteredData = aggregatedWordCloudData.filter(d =>
+        selectedSeason === 'all' || d.season === selectedSeason.replace('season', '')
+      );
+      wordCloud.updateVis(filteredData);
+    });
   })
   .catch(error => console.error(error));
