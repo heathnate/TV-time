@@ -44,11 +44,17 @@
             </div>
         </div>
     </div>
-    <div id="controls" style="background-color: #333; color: white;">
+    <div id="controls" style="background-color: #333; color: white; display: flex; justify-content: space-between; align-items: center; padding: 10px;">
         <label>
             <input type="checkbox" id="include-you-toggle" checked>
             Include "you" in the word cloud
         </label>
+        <div style="display: flex; align-items: center;">
+            <label for="character-select" style="margin-right: 10px;">Filter by Character:</label>
+            <select id="character-select" style="align-self: end;">
+                <option value="all">All Characters</option>
+            </select>
+        </div>
     </div>
     <script src="js/d3.v6.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1/build/d3.layout.cloud.min.js"></script> <!-- used for word cloud -->
