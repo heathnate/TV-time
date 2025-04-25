@@ -207,3 +207,50 @@ d3.csv('data/full_transcript.csv')
     });
   })
   .catch(error => console.error(error));
+
+// Load the word count datasets
+Promise.all([
+    d3.csv('data/total_word_counts.csv'), // Total word counts
+    d3.csv('data/character_word_counts.csv') // Character word counts
+]).then(([totalWordCounts, characterWordCounts]) => {
+    // Prepare total word cloud data
+    const totalWordCloudData = totalWordCounts.map(d => ({
+        word: d.Word,
+        frequency: +d['Word Count'] // Convert count to a number
+    }));
+
+    // Prepare character word cloud data
+    const characterWordCloudData = characterWordCounts.map(d => ({
+        character: d.Character,
+        word: d.Word,
+        frequency: +d['Word Count'] // Convert count to a number
+    }));
+
+    // Initialize the word cloud with total word counts by default
+    const wordCloud = new WordCloud(totalWordCloudData, { parentElement: '#bottom-left' });
+
+    // Add filtering logic for character-specific word clouds
+    const characterSelect = document.getElementById('character-select'); // Add a dropdown for characters
+    characterSelect.addEventListener('change', () => {
+        const selectedCharacter = characterSelect.value;
+        const filteredData = selectedCharacter === 'all'
+            ? totalWordCloudData // Show total word counts if "all" is selected
+            : characterWordCloudData.filter(d => d.character === selectedCharacter);
+        wordCloud.updateVis(filteredData);
+    });
+
+    // Populate the character dropdown
+    const uniqueCharacters = Array.from(new Set(characterWordCloudData.map(d => d.character))).sort();
+    characterSelect.innerHTML = '<option value="all">All Characters</option>';
+    uniqueCharacters.forEach(character => {
+        const option = document.createElement('option');
+        option.value = character;
+        option.textContent = character;
+        characterSelect.appendChild(option);
+    });
+}).catch(error => console.error(error));
+
+// Add event listener for the "Include 'you'" toggle
+document.getElementById('include-you-toggle').addEventListener('change', () => {
+    location.reload(); // Refresh the page when the toggle is changed
+});
