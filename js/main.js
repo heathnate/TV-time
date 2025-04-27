@@ -12,6 +12,77 @@ let heatmap;
 let isDraggingVertical = false;
 let isDraggingHorizontal = false;
 
+const characterMapping = {
+  // Mark group
+  "Mark": "Mark",
+  "Innie Mark": "Mark",
+  "Mark & Alexa (singing)": "Mark",
+  "Mark & Devon": "Mark",
+  "Mark (on tape)": "Mark",
+  "Mark (singing)": "Mark",
+  "Mark (voiceover)": "Mark",
+  "Mark S": "Mark",
+  "Mark S (voice)": "Mark",
+  "Outie Mark": "Mark",
+
+  // Petey group
+  "Petey": "Petey",
+  "Petey (singing)": "Petey",
+
+  // Ricken group
+  "Ricken": "Ricken",
+  "Ricken (voicemail)": "Ricken",
+  "Ricken (voiceover)": "Ricken",
+
+  // Television group
+  "Television": "Television",
+  "Television (voice)": "Television",
+
+  // Milchick group
+  "Milchick": "Milchick",
+  "Milchick (on tape)": "Milchick",
+  "Milchick (voicemail)": "Milchick",
+
+  // Ms. Huang group
+  "Ms. Huang": "Ms Huang",
+  "Miss Huang": "Ms Huang",
+
+  // Cobel group
+  "Cobel": "Cobel",
+  "Cobel (singing)": "Cobel",
+
+  // Helly group
+  "Helly": "Helly",
+  "Helly (on video)": "Helly",
+  "Helly and Dylan": "Helly", // choose Helly or Dylan; if shared line, you can customize
+
+  "Helly R": "Helly",
+
+  // Dylan group
+  "Dylan": "Dylan",
+  "Dylan G": "Dylan",
+
+  // Irving group
+  "Irving": "Irving",
+  "Irving B": "Irving",
+  "Irving B (voice)": "Irving",
+  "Kier and Irving": "Irving", // optional: decide if Kier or Irving gets this
+
+  // Jame group
+  "Jame": "Jame",
+  "Jame Eagan": "Jame",
+
+  // June group
+  "June": "June",
+  "June (singing)": "June",
+
+  // Kier group
+  "Kier": "Kier",
+  "Kier Eagan": "Kier",
+  "Kier Eagan (recording)": "Kier"
+};
+
+
 // Show/hide info dialog
 infoIcon.addEventListener('click', (e) => {
     e.stopPropagation(); // Prevent the click from propagating to the document
@@ -119,6 +190,10 @@ function flattenWordCounts(wordCounts) {
   
     return flatData;
 }
+
+function normalizeCharacter(character) {
+  return characterMapping[character.trim()] || character.trim();
+}
   
 
 d3.csv('data/full_transcript.csv')
@@ -129,25 +204,50 @@ d3.csv('data/full_transcript.csv')
     data.forEach(row => {
       const season = row['Season'];
       const episode = row['Episode Number'];
-      const character = row['Character'];
-      const dialogue = row['Dialogue'];
 
+      let characterField = row['Character']?.trim();
+      if (!characterField) return; // Skip if missing
+
+      const dialogue = row['Dialogue'];
       const wordCount = dialogue.trim().split(/\s+/).filter(w => w).length;
 
-      if (!wordCounts[season]) wordCounts[season] = {};
-      if (!wordCounts[season][episode]) wordCounts[season][episode] = {};
-      if (!wordCounts[season][episode][character]) wordCounts[season][episode][character] = 0;
+      // Handle multiple characters (e.g., "Helly and Dylan")
+      let characters = [];
 
-      wordCounts[season][episode][character] += wordCount;
+      if (characterField.includes(' and ')) {
+        characters = characterField.split(' and ').map(name => normalizeCharacter(name));
+      } else if (characterField.includes('&')) {
+        characters = characterField.split('&').map(name => normalizeCharacter(name));
+      } else {
+        characters = [normalizeCharacter(characterField)];
+      }
+
+      characters.forEach(character => {
+        if (!wordCounts[season]) wordCounts[season] = {};
+        if (!wordCounts[season][episode]) wordCounts[season][episode] = {};
+        if (!wordCounts[season][episode][character]) wordCounts[season][episode][character] = 0;
+
+        wordCounts[season][episode][character] += wordCount;
+      });
     });
 
     // Get a list of all unique characters
     const characterSet = new Set();
 
     data.forEach(row => {
-      const character = row['Character']?.trim();
-      if (character) {
-        characterSet.add(character);
+      let characterField = row['Character']?.trim();
+      if (characterField) {
+        let characters = [];
+
+        if (characterField.includes(' and ')) {
+          characters = characterField.split(' and ').map(name => normalizeCharacter(name));
+        } else if (characterField.includes('&')) {
+          characters = characterField.split('&').map(name => normalizeCharacter(name));
+        } else {
+          characters = [normalizeCharacter(characterField)];
+        }
+
+        characters.forEach(c => characterSet.add(c));
       }
     });
 
@@ -158,6 +258,7 @@ d3.csv('data/full_transcript.csv')
       ...d,
       episodeId: `S${d.season}E${d.episode}`
     }));
+
 
     // Prepare heatmap data
     const heatmapData = {
@@ -193,8 +294,8 @@ d3.csv('data/full_transcript.csv')
     });
 
     // Initialize visualizations
-    const heatmap = new Heatmap(heatmapData, { parentElement: '#left' });
-    //const wordCloud = new WordCloud(aggregatedWordCloudData, { parentElement: '#bottom-left' });
+    heatmap = new Heatmap(heatmapData, { parentElement: '#left' });
+    // const wordCloud = new WordCloud(aggregatedWordCloudData, { parentElement: '#bottom-left' });
 
     // Add filtering logic for the word cloud
     const seasonSelect = document.getElementById('season-select');
