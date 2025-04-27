@@ -44,14 +44,14 @@
             </div>
         </div>
     </div>
-    <div id="controls" style="background-color: #333; color: white; display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+    <div id="controls">
         <label>
             <input type="checkbox" id="include-you-toggle" checked>
             Include "you" in the word cloud
         </label>
-        <div style="display: flex; align-items: center;">
-            <label for="character-select" style="margin-right: 10px;">Filter by Character:</label>
-            <select id="character-select" style="align-self: end;">
+        <div id="word-cloud-filter-container">
+            <label id="character-select-label" for="character-select">Filter by Character:</label>
+            <select id="character-select">
                 <option value="all">All Characters</option>
             </select>
         </div>

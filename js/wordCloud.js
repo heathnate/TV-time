@@ -23,8 +23,9 @@ class WordCloud {
         // Define the SVG container
         vis.svg = d3.select(vis.config.parentElement)
             .append("svg")
-                .attr("width", vis.width + vis.margin.left + vis.margin.right)
-                .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+                .attr("viewBox", [0, 0, container.clientWidth, container.clientHeight])
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .classed("responsive-svg", true)
             .append("g")
                 .attr("transform", `translate(${vis.width / 2 + vis.margin.left}, ${vis.height / 2 + vis.margin.top})`);
 
