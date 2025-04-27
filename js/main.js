@@ -295,17 +295,6 @@ d3.csv('data/full_transcript.csv')
 
     // Initialize visualizations
     heatmap = new Heatmap(heatmapData, { parentElement: '#left' });
-    // const wordCloud = new WordCloud(aggregatedWordCloudData, { parentElement: '#bottom-left' });
-
-    // Add filtering logic for the word cloud
-    const seasonSelect = document.getElementById('season-select');
-    seasonSelect.addEventListener('change', () => {
-      const selectedSeason = seasonSelect.value;
-      const filteredData = aggregatedWordCloudData.filter(d =>
-        selectedSeason === 'all' || d.season === selectedSeason.replace('season', '')
-      );
-      wordCloud.updateVis(filteredData);
-    });
   })
   .catch(error => console.error(error));
 
@@ -341,7 +330,10 @@ Promise.all([
     });
 
     // Populate the character dropdown
-    const uniqueCharacters = Array.from(new Set(characterWordCloudData.map(d => d.character))).sort();
+    const uniqueCharacters = Array.from(new Set(
+        characterWordCloudData.map(d => normalizeCharacter(d.character)) // Normalize character names
+    )).sort();
+
     characterSelect.innerHTML = '<option value="all">All Characters</option>';
     uniqueCharacters.forEach(character => {
         const option = document.createElement('option');
