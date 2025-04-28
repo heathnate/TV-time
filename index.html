@@ -28,6 +28,20 @@
                     <option value="season1">Season 1</option>
                     <option value="season2">Season 2</option>
                 </select>
+                <div id="character-multiselect-container">
+                    <button id="character-multiselect-button">Select Characters</button>
+                    <div id="character-multiselect-dropdown" class="hidden">
+                        <div id="character-options">
+                            <label>
+                                <input type="checkbox" checked value="top10" id="top10-option">
+                                Top 10 Characters
+                            </label>
+                            <div id="character-scroll-container">
+                            </div>
+                        </div>
+                        <button id="character-multiselect-done">Done</button>
+                    </div>
+                </div>
                 <div id="heatmap"></div>
             </div>
             <div id="right">

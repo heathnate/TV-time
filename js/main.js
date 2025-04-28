@@ -259,6 +259,8 @@ d3.csv('data/full_transcript.csv')
       episodeId: `S${d.season}E${d.episode}`
     }));
 
+    console.log('flattened', flattened);
+
 
     // Prepare heatmap data
     const heatmapData = {

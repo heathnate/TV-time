@@ -7,6 +7,73 @@ class Heatmap {
 
     initVis() {
         let vis = this;
+
+        vis.characters = vis.data.characters;
+        vis.selectedCharacters = ['Burt', 'Cobel', 'Devon', 'Dylan', 'Helly', 'Irving', 'Mark', 'Milchick', 'Reghabi', 'Ricken']; // Default selected characters
+
+        // Populate character multiselect dropdown
+        const characterScrollContainer = document.getElementById('character-scroll-container');
+        vis.characters.forEach(character => {
+            const label = document.createElement('label');
+            label.innerHTML = `
+                <input type="checkbox" value="${character}">
+                ${character}
+            `;
+            characterScrollContainer.appendChild(label);
+        });
+
+        // Check the "Top 10 Characters" option by default
+        const top10Option = document.getElementById('top10-option');
+        top10Option.checked = true;
+
+        // Add event listener for "Top 10 Characters" checkbox
+        top10Option.addEventListener('change', () => {
+            if (top10Option.checked) {
+                // Uncheck all other character checkboxes
+                const checkboxes = document.querySelectorAll('#character-scroll-container input[type="checkbox"]');
+                checkboxes.forEach(checkbox => checkbox.checked = false);
+
+                // Select Top 10 characters
+                vis.selectedCharacters = vis.characters.slice(0, 10);
+            }
+        });
+
+        // Add event listener for individual character checkboxes
+        characterScrollContainer.addEventListener('change', (event) => {
+            if (event.target.type === 'checkbox') {
+                // Uncheck "Top 10 Characters" if any other checkbox is checked
+                if (event.target.checked) {
+                    top10Option.checked = false;
+                }
+            }
+        });
+
+        // Add event listener for "Done" button
+        document.getElementById('character-multiselect-done').addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('#character-scroll-container input[type="checkbox"]');
+
+            if (top10Option.checked) {
+                // Select Top 10 characters
+                vis.selectedCharacters = vis.characters.slice(0, 10);
+            } else {
+                // Get selected characters
+                vis.selectedCharacters = Array.from(checkboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+            }
+
+            // Hide the dropdown
+            document.getElementById('character-multiselect-dropdown').classList.add('hidden');
+
+            // Update the heatmap
+            vis.updateVis();
+        });
+
+        // Add event listener to toggle dropdown visibility
+        document.getElementById('character-multiselect-button').addEventListener('click', () => {
+            const dropdown = document.getElementById('character-multiselect-dropdown');
+            dropdown.classList.toggle('hidden');
+        });        
         
         console.log('initVis', vis.data);
         vis.backupWordCounts = vis.data.wordCounts;
@@ -104,6 +171,8 @@ class Heatmap {
         // Clear previous visualizations (removing rects)
         vis.svg.selectAll("rect").remove();
 
+        vis.yScale.domain(vis.selectedCharacters);
+
         vis.xAxisGroup.call(vis.xAxis)
             .selectAll("text")
             .style("transform", "translate(5, 0)")
@@ -116,22 +185,28 @@ class Heatmap {
             .style("font-size", "12px")
             .style("font-family", "Arial, sans-serif");
 
+        // Filter data based on selected characters
+        vis.filteredData = vis.data.wordCounts.filter(d => vis.selectedCharacters.includes(d.character));
+
+        // Recalculate color scale based on filtered data for clearer differences
+        vis.colorScale.domain([0, d3.max(vis.filteredData, d => d.value)]);
+
         vis.renderVis();
     }
 
     renderVis() {
         let vis = this;
 
-        console.log('renderVis', vis.data.wordCounts);
+        console.log('renderVis filteredData', vis.filteredData);
 
         const dataMap = new Map();
-        vis.data.wordCounts.forEach(d => {
+        vis.filteredData.forEach(d => {
             dataMap.set(`${d.character}-${d.episodeId}`, d.value);
         });
 
         // Generate all combinations of characters × episodes
         const plotData = [];
-        vis.characters.forEach(character => {
+        vis.selectedCharacters.forEach(character => {
             vis.xScale.domain().forEach(episodeId => {
                 const key = `${character}-${episodeId}`;
                 plotData.push({
@@ -141,6 +216,8 @@ class Heatmap {
                 });
             });
         });
+
+        console.log('plotData', plotData);
 
         vis.svg.selectAll()
             .data(plotData)
