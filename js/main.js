@@ -193,11 +193,13 @@ function normalizeCharacter(character) {
 d3.csv('data/full_transcript.csv')
   .then(data => {
     const wordCounts = {};
+    const characterStats = {};
 
     // Get the word count for each character in each episode
     data.forEach(row => {
       const season = row['Season'];
       const episode = row['Episode Number'];
+      const episodeId = `S${season}E${episode}`;
 
       let characterField = row['Character']?.trim();
       if (!characterField) return; // Skip if missing
@@ -222,6 +224,20 @@ d3.csv('data/full_transcript.csv')
         if (!wordCounts[season][episode][character]) wordCounts[season][episode][character] = 0;
 
         wordCounts[season][episode][character] += wordCount;
+
+        // Initialize character stats if not already present
+        if (!characterStats[character]) {
+          characterStats[character] = {
+            totalWords: 0,
+            episodesSpoken: new Set()
+          };
+        }
+
+        // Keep track of total words spoken by each character and # of episodes they speak in
+        characterStats[character].totalWords += wordCount;
+        if (wordCount > 0) {
+          characterStats[character].episodesSpoken.add(episodeId);
+        }
       });
     });
 
@@ -253,10 +269,17 @@ d3.csv('data/full_transcript.csv')
       episodeId: `S${d.season}E${d.episode}`
     }));
 
+    // Finalize stats
+    Object.values(characterStats).forEach(stat => {
+      stat.totalEpisodes = stat.episodesSpoken.size;
+      delete stat.episodesSpoken; // Optional: keep only the count
+    });
+
     // Prepare heatmap data
     const heatmapData = {
       characters: characters,
-      wordCounts: flattened
+      wordCounts: flattened,
+      characterStats: characterStats
     };
 
     // Initialize visualizations

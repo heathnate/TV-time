@@ -148,6 +148,7 @@ class Heatmap {
 
         vis.yAxis = d3.axisLeft(vis.yScale).tickSize(0);
         vis.yAxisGroup = vis.svg.append("g")
+            .attr("class", "y-axis")
             .attr("transform", "translate(-1,0)");
 
         // Create color scale
@@ -242,7 +243,25 @@ class Heatmap {
             })
             .on('mouseleave', () => {
                 vis.tooltip.style('opacity', 0);
+            });
+        
+        // Character tooltip
+        vis.svg.selectAll(".y-axis text")
+            .on('mouseover', (event, d) => {
+                vis.tooltip
+                    .style('opacity', 1)
+                    .html(`${d}<br>
+                        Total Words: ${vis.data.characterStats[d].totalWords}<br>
+                        Total Episodes: ${vis.data.characterStats[d].totalEpisodes}`)
+                    .style('left', `${event.pageX + 10}px`)
+                    .style('top', `${event.pageY + 10}px`);
             })
+            .on('mousemove', event => {
+                vis.tooltip.style('left', `${event.pageX + 10}px`).style('top', `${event.pageY + 10}px`);
+            })
+            .on('mouseleave', () => {
+                vis.tooltip.style('opacity', 0);
+            });
     }
 
     // Update the heatmap data and x scale based on season selection
