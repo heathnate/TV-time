@@ -18,8 +18,6 @@ class WordCloud {
         vis.width = containerWidth - vis.margin.left - vis.margin.right;
         vis.height = containerHeight - vis.margin.top - vis.margin.bottom;
 
-        console.log(`WordCloud dimensions: width=${vis.width}, height=${vis.height}`); // Debugging
-
         // Define the SVG container
         vis.svg = d3.select(vis.config.parentElement)
             .append("svg")

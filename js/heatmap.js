@@ -9,7 +9,9 @@ class Heatmap {
         let vis = this;
 
         vis.characters = vis.data.characters;
-        vis.selectedCharacters = ['Burt', 'Cobel', 'Devon', 'Dylan', 'Helly', 'Irving', 'Mark', 'Milchick', 'Reghabi', 'Ricken']; // Default selected characters
+
+        // Default selected characters
+        vis.selectedCharacters = ['Burt', 'Cobel', 'Devon', 'Dylan', 'Helly', 'Irving', 'Mark', 'Milchick', 'Reghabi', 'Ricken'];
 
         // Populate character multiselect dropdown
         const characterScrollContainer = document.getElementById('character-scroll-container');
@@ -75,7 +77,7 @@ class Heatmap {
             dropdown.classList.toggle('hidden');
         });        
         
-        console.log('initVis', vis.data);
+        // Backup data to replace filtered data from season selection
         vis.backupWordCounts = vis.data.wordCounts;
 
         vis.margin = {top: 50, right: 30, bottom: 50, left: 80};
@@ -121,14 +123,14 @@ class Heatmap {
             .slice(0, 10)                      // take top 10
             .map(([character, _]) => character); // get just the character names
         
-        // Alphabetize those 10
+        // Sort top 10 characters alphabetically
         vis.characters = top10.sort();
 
         vis.episodes = [['S1E1','S1E2','S1E3','S1E4','S1E5','S1E6','S1E7','S1E8','S1E9','S2E1','S2E2','S2E3','S2E4','S2E5','S2E6','S2E7','S2E8','S2E9','S2E10'],
             ['S1E1','S1E2','S1E3','S1E4','S1E5','S1E6','S1E7','S1E8','S1E9'],
             ['S2E1','S2E2','S2E3','S2E4','S2E5','S2E6','S2E7','S2E8','S2E9','S2E10']];
 
-        // Create x scale
+        // Create x scale and axis
         vis.xScale = d3.scaleBand()
             .range([0, vis.width])
             .domain(vis.episodes[0])
@@ -138,7 +140,7 @@ class Heatmap {
         vis.xAxisGroup = vis.svg.append("g")
             .attr("transform", "translate(0," + vis.height + ")");
 
-        // Create y scale
+        // Create y scale and axis
         vis.yScale = d3.scaleBand()
             .range([0, vis.height])
             .domain(vis.characters)
@@ -166,13 +168,13 @@ class Heatmap {
     updateVis() {
         let vis = this;
 
-        console.log('updateVis', vis.data.wordCounts);
-
         // Clear previous visualizations (removing rects)
         vis.svg.selectAll("rect").remove();
 
+        // Reset y axis to show new selected characters
         vis.yScale.domain(vis.selectedCharacters);
 
+        // Redraw axes depending on updated seasons/characters
         vis.xAxisGroup.call(vis.xAxis)
             .selectAll("text")
             .style("transform", "translate(5, 0)")
@@ -197,14 +199,14 @@ class Heatmap {
     renderVis() {
         let vis = this;
 
-        console.log('renderVis filteredData', vis.filteredData);
-
+        // Create lookup table
         const dataMap = new Map();
         vis.filteredData.forEach(d => {
             dataMap.set(`${d.character}-${d.episodeId}`, d.value);
         });
 
         // Generate all combinations of characters × episodes
+        // This way we know when to apply the hatch pattern (for no data)
         const plotData = [];
         vis.selectedCharacters.forEach(character => {
             vis.xScale.domain().forEach(episodeId => {
@@ -212,12 +214,10 @@ class Heatmap {
                 plotData.push({
                     character,
                     episodeId,
-                    value: dataMap.has(key) ? dataMap.get(key) : null // null means no data
+                    value: dataMap.has(key) ? dataMap.get(key) : null
                 });
             });
         });
-
-        console.log('plotData', plotData);
 
         vis.svg.selectAll()
             .data(plotData)
@@ -245,6 +245,7 @@ class Heatmap {
             })
     }
 
+    // Update the heatmap data and x scale based on season selection
     updateSeason(season) {
         let vis = this;
         if (season == 'all') {

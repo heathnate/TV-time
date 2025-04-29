@@ -119,6 +119,8 @@ document.addEventListener('mousemove', (e) => {
   if (isDraggingVertical) {
       const newLeftWidth = e.clientX - containerRect.left;
       const newRightWidth = containerRect.width - newLeftWidth - 10; // 10px for slider
+
+      // Resize containers
       if (newLeftWidth > 0 && newRightWidth > 0) {
           document.getElementById('top-left').style.width = `${newLeftWidth}px`;
           document.getElementById('bottom-left').style.width = `${newLeftWidth}px`;
@@ -130,6 +132,8 @@ document.addEventListener('mousemove', (e) => {
   if (isDraggingHorizontal) {
       const newTopHeight = e.clientY - containerRect.top;
       const newBottomHeight = containerRect.height - newTopHeight - 10; // 10px for slider
+
+      // Resize containers
       if (newTopHeight > 0 && newBottomHeight > 0) {
           document.getElementById('top-left').style.height = `${newTopHeight}px`;
           document.getElementById('top-right').style.height = `${newTopHeight}px`;
@@ -160,30 +164,7 @@ function setDefaultSizes() {
 window.addEventListener('load', setDefaultSizes);
 window.addEventListener('resize', setDefaultSizes); // Adjust sizes on window resize
 
-// Simple CSV line parser that handles quoted fields
-function parseCSVLine(line) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
-  
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
-      if (char === '"' && line[i + 1] === '"') {
-        current += '"'; // Handle escaped quotes
-        i++; // Skip the next quote
-      } else if (char === '"') {
-        inQuotes = !inQuotes; // Toggle inQuotes
-      } else if (char === ',' && !inQuotes) {
-        result.push(current);
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-    result.push(current); // Add last field
-    return result;
-}
-
+// Turn nested data into array for heatmap
 function flattenWordCounts(wordCounts) {
     const flatData = [];
   
@@ -207,8 +188,7 @@ function flattenWordCounts(wordCounts) {
 
 function normalizeCharacter(character) {
   return characterMapping[character.trim()] || character.trim();
-}
-  
+}  
 
 d3.csv('data/full_transcript.csv')
   .then(data => {
@@ -273,41 +253,11 @@ d3.csv('data/full_transcript.csv')
       episodeId: `S${d.season}E${d.episode}`
     }));
 
-    console.log('flattened', flattened);
-
-
     // Prepare heatmap data
     const heatmapData = {
       characters: characters,
       wordCounts: flattened
     };
-
-    // Prepare word cloud data
-    const wordCloudData = data.flatMap(row => {
-      const season = row['Season'];
-      const episode = row['Episode Number'];
-      const character = row['Character'];
-      const dialogue = row['Dialogue'];
-
-      const words = dialogue.trim().split(/\s+/).filter(w => w);
-      return words.map(word => ({
-        season,
-        episode,
-        character,
-        word,
-        frequency: 1 // Each word appears once in the dialogue
-      }));
-    });
-
-    // Aggregate word frequencies for the word cloud
-    const aggregatedWordCloudData = d3.rollups(
-      wordCloudData,
-      v => v.length,
-      d => `${d.season}-${d.episode}-${d.character}-${d.word}`
-    ).map(([key, frequency]) => {
-      const [season, episode, character, word] = key.split('-');
-      return { season, episode, character, word, frequency };
-    });
 
     // Initialize visualizations
     heatmap = new Heatmap(heatmapData, { parentElement: '#top-left' });
