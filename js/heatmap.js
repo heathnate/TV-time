@@ -80,8 +80,8 @@ class Heatmap {
 
         vis.margin = {top: 50, right: 30, bottom: 50, left: 80};
 
-        // Make the SVG responsive to the size of the "left" parent container
-        const container = document.getElementById("left");
+        // Make the SVG responsive to the size of the "top-left" parent container
+        const container = document.getElementById("top-left");
         vis.width = container.clientWidth - vis.margin.left - vis.margin.right;
         vis.height = container.clientHeight - vis.margin.top - vis.margin.bottom;
 

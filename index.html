@@ -21,40 +21,36 @@
         </div>
     </div>
     <div id="container">
-        <div id="top">
-            <div id="left">
-                <select id="season-select" class="select" onchange="heatmap.updateSeason(this.value)">
-                    <option value="all">All Seasons</option> 
-                    <option value="season1">Season 1</option>
-                    <option value="season2">Season 2</option>
-                </select>
-                <div id="character-multiselect-container">
-                    <button id="character-multiselect-button">Select Characters</button>
-                    <div id="character-multiselect-dropdown" class="hidden">
-                        <div id="character-options">
-                            <label>
-                                <input type="checkbox" checked value="top10" id="top10-option">
-                                Top 10 Characters
-                            </label>
-                            <div id="character-scroll-container">
-                            </div>
+        <div id="top-left">
+            <select id="season-select" class="select" onchange="heatmap.updateSeason(this.value)">
+                <option value="all">All Seasons</option> 
+                <option value="season1">Season 1</option>
+                <option value="season2">Season 2</option>
+            </select>
+            <div id="character-multiselect-container">
+                <button id="character-multiselect-button">Select Characters</button>
+                <div id="character-multiselect-dropdown" class="hidden">
+                    <div id="character-options">
+                        <label>
+                            <input type="checkbox" checked value="top10" id="top10-option">
+                            Top 10 Characters
+                        </label>
+                        <div id="character-scroll-container">
                         </div>
-                        <button id="character-multiselect-done">Done</button>
                     </div>
+                    <button id="character-multiselect-done">Done</button>
                 </div>
-                <div id="heatmap"></div>
             </div>
-            <div id="right">
-            </div>
-            <div id="vertical-slider" class="slider"></div>
+            <div id="heatmap"></div>
         </div>
+        <div id="top-right">
+        </div>
+        <div id="bottom-left">
+        </div>
+        <div id="bottom-right">
+        </div>
+        <div id="vertical-slider" class="slider"></div>
         <div id="horizontal-slider" class="slider"></div>
-        <div id="bottom">
-            <div id="bottom-left">
-            </div>
-            <div id="bottom-right">
-            </div>
-        </div>
     </div>
     <div id="controls">
         <label>

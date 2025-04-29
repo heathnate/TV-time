@@ -94,7 +94,7 @@ class arcDiagram {
             const r = Math.abs(y2 - y1) / 2;
             return `M${marginLeft},${y1}A${r},${r} 0,0,${y1 < y2 ? 1 : 0} ${marginLeft},${y2}`;
         }
-        vis.svg = d3.select("#right")
+        vis.svg = d3.select("#top-right")
             .append("svg")
             .classed("responsive-svg", true);
         

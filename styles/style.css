@@ -55,32 +55,58 @@ body, html {
 }
 
 #container {
+    display: grid;
     flex: 1;
     width: 100vw;
     height: calc(100vh - 100px);
-    display: grid;
     grid-template-rows: 1fr 10px 1fr;
     grid-template-columns: 1fr 10px 1fr;
     box-sizing: border-box;
 }
 
-#top {
-    display: grid;
-    grid-template-columns: 1fr 10px 1fr;
-    grid-column: 1 / 4;
-    grid-row: 1 / 2;
-}
-
-#left, #right, #bottom {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+#top-left {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    background-color: #f0f0f0;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    border: 1px solid #ccc;
     position: relative;
+}
+
+#top-right {
+    grid-row: 1 / 2;
+    grid-column: 3 / 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+#bottom-left {
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+#bottom-right {
+    grid-row: 3 / 4;
+    grid-column: 3 / 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
 }
 
 #character-multiselect-container {
@@ -154,18 +180,19 @@ body, html {
 .slider {
     background-color: #ddd;
     cursor: pointer;
+    z-index: 10;
 }
 
 #vertical-slider {
+    grid-row: 1 / 4;
     grid-column: 2 / 3;
-    grid-row: 1 / 2;
     width: 10px;
     cursor: ew-resize;
 }
 
 #horizontal-slider {
-    grid-column: 1 / 4;
     grid-row: 2 / 3;
+    grid-column: 1 / 4;
     height: 10px;
     cursor: ns-resize;
 }
@@ -186,6 +213,7 @@ body, html {
     height: 60px;
     background: #fff;
     position: absolute;
+    z-index: 10;
 }
 
 #heatmap {
@@ -194,12 +222,6 @@ body, html {
 }
 
 .responsive-svg {
-    width: 100%;
-    height: 100%;
-}
-
-
-#bottom-left {
     width: 100%;
     height: 100%;
 }
@@ -215,6 +237,7 @@ body, html {
     box-sizing: border-box;
     flex-shrink: 0;
     position: relative;
+    z-index: 10;
 }
 
 #word-cloud-filter-container {

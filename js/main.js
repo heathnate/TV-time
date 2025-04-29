@@ -12,6 +12,7 @@ let heatmap;
 let isDraggingVertical = false;
 let isDraggingHorizontal = false;
 
+// Character mapping for combining data from multiple aliases into the same character
 const characterMapping = {
   // Mark group
   "Mark": "Mark",
@@ -54,19 +55,19 @@ const characterMapping = {
   // Helly group
   "Helly": "Helly",
   "Helly (on video)": "Helly",
-  "Helly and Dylan": "Helly", // choose Helly or Dylan; if shared line, you can customize
-
+  "Helly and Dylan": "Helly",
   "Helly R": "Helly",
 
   // Dylan group
   "Dylan": "Dylan",
   "Dylan G": "Dylan",
+  "Helly and Dylan": "Dylan",
 
   // Irving group
   "Irving": "Irving",
   "Irving B": "Irving",
   "Irving B (voice)": "Irving",
-  "Kier and Irving": "Irving", // optional: decide if Kier or Irving gets this
+  "Kier and Irving": "Irving",
 
   // Jame group
   "Jame": "Jame",
@@ -79,7 +80,9 @@ const characterMapping = {
   // Kier group
   "Kier": "Kier",
   "Kier Eagan": "Kier",
-  "Kier Eagan (recording)": "Kier"
+  "Animatrionic Kier": "Kier",
+  "Kier Eagan (recording)": "Kier",
+  "Kier and Irving": "Kier"
 };
 
 
@@ -100,6 +103,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Event listeners for interacting w/ the sliders
 verticalSlider.addEventListener('mousedown', () => isDraggingVertical = true);
 horizontalSlider.addEventListener('mousedown', () => isDraggingHorizontal = true);
 
@@ -108,38 +112,48 @@ document.addEventListener('mouseup', () => {
     isDraggingHorizontal = false;
 });
 
+// Event listeners for moving the sliders around
 document.addEventListener('mousemove', (e) => {
-    if (isDraggingVertical) {
-        const containerRect = container.getBoundingClientRect();
-        const newLeftWidth = e.clientX - containerRect.left;
-        const newRightWidth = containerRect.width - newLeftWidth - 10; // 10px for slider
-        if (newLeftWidth > 0 && newRightWidth > 0) {
-            left.style.width = `${newLeftWidth}px`;
-            right.style.width = `${newRightWidth}px`;
-        }
-    }
+  const containerRect = container.getBoundingClientRect();
 
-    if (isDraggingHorizontal) {
-        const containerRect = container.getBoundingClientRect();
-        const newTopHeight = e.clientY - containerRect.top;
-        const newBottomHeight = containerRect.height - newTopHeight - 10; // 10px for slider
-        if (newTopHeight > 0 && newBottomHeight > 0) {
-            document.getElementById('top').style.height = `${newTopHeight}px`;
-            bottom.style.height = `${newBottomHeight}px`;
-        }
-    }
+  if (isDraggingVertical) {
+      const newLeftWidth = e.clientX - containerRect.left;
+      const newRightWidth = containerRect.width - newLeftWidth - 10; // 10px for slider
+      if (newLeftWidth > 0 && newRightWidth > 0) {
+          document.getElementById('top-left').style.width = `${newLeftWidth}px`;
+          document.getElementById('bottom-left').style.width = `${newLeftWidth}px`;
+          document.getElementById('top-right').style.width = `${newRightWidth}px`;
+          document.getElementById('bottom-right').style.width = `${newRightWidth}px`;
+      }
+  }
+
+  if (isDraggingHorizontal) {
+      const newTopHeight = e.clientY - containerRect.top;
+      const newBottomHeight = containerRect.height - newTopHeight - 10; // 10px for slider
+      if (newTopHeight > 0 && newBottomHeight > 0) {
+          document.getElementById('top-left').style.height = `${newTopHeight}px`;
+          document.getElementById('top-right').style.height = `${newTopHeight}px`;
+          document.getElementById('bottom-left').style.height = `${newBottomHeight}px`;
+          document.getElementById('bottom-right').style.height = `${newBottomHeight}px`;
+      }
+  }
 });
 
 // Set default sizes for the quadrants
 function setDefaultSizes() {
-    const containerRect = container.getBoundingClientRect();
-    const defaultTopHeight = containerRect.height / 2 - 5; // Half height minus slider
-    const defaultLeftWidth = containerRect.width / 2 - 5; // Half width minus slider
+  const containerRect = container.getBoundingClientRect();
+  const defaultTopHeight = containerRect.height / 2 - 5; // Half height minus slider
+  const defaultLeftWidth = containerRect.width / 2 - 5; // Half width minus slider
 
-    document.getElementById('top').style.height = `${defaultTopHeight}px`;
-    left.style.width = `${defaultLeftWidth}px`;
-    right.style.width = `${defaultLeftWidth}px`;
-    bottom.style.height = `${defaultTopHeight}px`;
+  document.getElementById('top-left').style.height = `${defaultTopHeight}px`;
+  document.getElementById('top-right').style.height = `${defaultTopHeight}px`;
+  document.getElementById('bottom-left').style.height = `${defaultTopHeight}px`;
+  document.getElementById('bottom-right').style.height = `${defaultTopHeight}px`;
+
+  document.getElementById('top-left').style.width = `${defaultLeftWidth}px`;
+  document.getElementById('bottom-left').style.width = `${defaultLeftWidth}px`;
+  document.getElementById('top-right').style.width = `${defaultLeftWidth}px`;
+  document.getElementById('bottom-right').style.width = `${defaultLeftWidth}px`;
 }
 
 // Initialize default sizes on load
@@ -296,8 +310,8 @@ d3.csv('data/full_transcript.csv')
     });
 
     // Initialize visualizations
-    heatmap = new Heatmap(heatmapData, { parentElement: '#left' });
-    arcDiagrams = new arcDiagram(data, { parentElement: '#right' });
+    heatmap = new Heatmap(heatmapData, { parentElement: '#top-left' });
+    arcDiagrams = new arcDiagram(data, { parentElement: '#top-right' });
   })
   .catch(error => console.error(error));
 
