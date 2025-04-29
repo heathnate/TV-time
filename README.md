@@ -11,12 +11,12 @@
 <p>
   For the data, we searched and found the best script possible and imported it using a webscraper. We then manipulated the data in a pandas dataframe with columns of Season,Episode Number,Episode Title,Character,Dialogue,Timestamp, and TalkingTo.
   Most of this was easily gettable from the website, but TalkingTo was less noted so we created parameters to determine who was the most recent person that speaks after or before to try to take the best guess at who is in the conversation. We also created 2 other files
-  for data that are used differently to lessen the processing needed to be done at runtime for the word cloud that counts the number of times each word was said, then another file to count how many times a word was said by each character. This drastically cut down the loading
-  time for this section. Link to data folder: https://github.com/heathnate/TV-time/tree/main/data.
+  for data that are used differently to lessen the processing needed to be done at runtime for the word cloud that counts the number of times each word was said, then another file to count how many times a word was said by each character. This drastically cut down the loading time for this section.<br>
+  [Link to data folder](https://github.com/heathnate/TV-time/tree/main/data)
 </p>
 <h2>Visualization Components:</h2>
 <h3>Episode Word Count (Top Left)</h3>
-<p>FILLER</p>
+<p>The heat map feature in the top left is meant to portray the frequency (per episode) at which characters are speaking. The shade of blue displayed is for easy comprehension of which characters are taking the bulk of the speaking roles in comparison to one another. One can filter the heat map with a season selector dropdown in the top left. This will update the graph to show data from Season 1, Season 2, or both. Filtering is also available through a character selection button which allows for handpicking characters to compare word frequency to one another. There are also two tooltips within this visualization. The first one displays the specific character, the selected season and episode number, and the word count for that corresponding character/episode combination. The second tooltip appears when hovering over a character on the y-axis, and shows the character name, total words spoken throughout the show, and total episodes appeared in throughout the show.</p>
 <h3>Arc Diagram (Top Right)</h3>
 <p>FILLER</p>
 <h3>Word Cloud (Bottom Left)</h3>
@@ -29,7 +29,8 @@
 <h3>Undecided - EDIT ME (Bottom Right)</h3>
 <p>FILLER</p>
 <h2>What We Can Discover:</h2>
-<h2>Libraries Used / Code Structure / Acess:</h2>
+<h2>Libraries Used / Code Structure / Access:</h2>
 <h2>Video Demo:</h2>
 <h2>Work Breakdown:</h2>
-<p>Eli Pappas - Data Import, Processing, and Cleaning, and Word Cloud</p>
+<p>Eli Pappas - Data Import, Processing, and Cleaning, and Word Cloud<br>
+Nate Heath - UI Design and Creation, Info Dialog, and Heatmap</p>
