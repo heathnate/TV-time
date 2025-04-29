@@ -297,6 +297,7 @@ d3.csv('data/full_transcript.csv')
 
     // Initialize visualizations
     heatmap = new Heatmap(heatmapData, { parentElement: '#left' });
+    arcDiagrams = new arcDiagram(data, { parentElement: '#right' });
   })
   .catch(error => console.error(error));
 
