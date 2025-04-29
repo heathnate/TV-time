@@ -3,7 +3,7 @@ body, html {
     padding: 0;
     height: 100%;
     width: 100%;
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
@@ -25,7 +25,7 @@ body, html {
 #title-container {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between title and icon */
+    gap: 10px;
 }
 
 #title {
@@ -42,7 +42,7 @@ body, html {
     display: none;
     position: absolute;
     top: 60px;
-    left: 20px; /* Adjusted to align with the title-container */
+    left: 20px;
     background-color: white;
     color: black;
     border: 1px solid #ccc;
@@ -56,17 +56,17 @@ body, html {
 
 #container {
     flex: 1;
-    width: 100vw; /* Full viewport width */
-    height: calc(100vh - 100px); /* Subtract header height */
+    width: 100vw;
+    height: calc(100vh - 100px);
     display: grid;
-    grid-template-rows: 1fr 10px 1fr; /* Top, slider, bottom */
-    grid-template-columns: 1fr 10px 1fr; /* Left, slider, right */
+    grid-template-rows: 1fr 10px 1fr;
+    grid-template-columns: 1fr 10px 1fr;
     box-sizing: border-box;
 }
 
 #top {
     display: grid;
-    grid-template-columns: 1fr 10px 1fr; /* Left, slider, right */
+    grid-template-columns: 1fr 10px 1fr;
     grid-column: 1 / 4;
     grid-row: 1 / 2;
 }
@@ -79,14 +79,8 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Ensure content doesn't overflow */
+    overflow: hidden;
     position: relative;
-}
-
-#left img, #right img, #bottom img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Maintain aspect ratio and fit within the container */
 }
 
 #character-multiselect-container {
@@ -95,11 +89,14 @@ body, html {
     right: 10px;
     z-index: 20;
     display: flex;
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+    max-width: 250px;
 }
 
 #character-multiselect-button {
     position: absolute;
-    right: 10px; /* Set a fixed horizontal position */
+    right: 10px;
     padding: 5px 10px;
     cursor: pointer;
     background-color: #f0f0f0;
@@ -112,15 +109,13 @@ body, html {
 #character-multiselect-dropdown {
     position: absolute;
     margin-top: 27px;
-    top: 100%;
+    height: 100%;
+    width: 100%;
     right: 0;
     background-color: white;
     border: 1px solid #ccc;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    width: 200px;
-    max-height: 300px;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;;
@@ -135,13 +130,15 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    height: calc(100% - 50px);
 }
 
 #character-scroll-container {
-    max-height: 200px;
     overflow-y: auto;
     border: 1px solid #ddd;
     padding: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 #character-multiselect-done {
@@ -151,7 +148,6 @@ body, html {
     color: white;
     border: none;
     border-radius: 4px;
-    margin: 10px;
     align-self: center;
 }
 
