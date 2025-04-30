@@ -22,12 +22,6 @@ class arcDiagram {
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             ];
 
-        let a = [];
-        let b = [];
-        let i = 0;
-        let truth = 0;
-        let k = 0;
-
         function pro(dex, bapple)
         {
             let index = 20;
@@ -119,22 +113,7 @@ class arcDiagram {
         vis.data.forEach(row => {
           if(row['Season'] ==  1)
           {
-            truth = 0;
-            for(let j = 0; j < a.length; j++)
-            {
-                if(a[j] == row['Character'])
-                {
-                    truth = 1;
-                }
-            }
-            if(truth == 0)
-            {
-                a[k] = row['Character'];
-                k++;
-            }
-            b[i] = [row['Character'], row['TalkingTo']];
-            pro(b[i][0],b[i][1]);
-            i++;
+            pro(row['Character'],row['TalkingTo']);
           }
         });
 
@@ -197,9 +176,10 @@ class arcDiagram {
         )
         .style("fill", function(d){ return(colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
         .style("stroke", "black");
-    }
-    // Update the heatmap data and x scale based on season selection
-    updateSeason(season) {
+    } 
+    
+    // Update the data based on season
+    updateSea(dat) {
         let vis = this;
 
         // create a matrix
@@ -305,6 +285,7 @@ class arcDiagram {
         }
 
         var sea;
+        var season = document.getElementById("bes").value;
 
         if (season == 'all') {
             sea = 0;
@@ -313,25 +294,11 @@ class arcDiagram {
         } else if (season == 'season2') {
             sea = 2;
         }
-        vis.data.forEach(row => {
+        console.log(dat);
+        dat.forEach(row => {
           if(row['Season'] == sea || sea == 0)
           {
-            truth = 0;
-            for(let j = 0; j < a.length; j++)
-            {
-                if(a[j] == row['Character'])
-                {
-                    truth = 1;
-                }
-            }
-            if(truth == 0)
-            {
-                a[k] = row['Character'];
-                k++;
-            }
-            b[i] = [row['Character'], row['TalkingTo']];
-            pro(b[i][0],b[i][1]);
-            i++;
+            pro(row['Character'],row['TalkingTo']);
           }
         });
         vis.updateVis(matrix);

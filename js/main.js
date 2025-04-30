@@ -287,6 +287,8 @@ d3.csv('data/full_transcript.csv')
     // Initialize visualizations
     heatmap = new Heatmap(heatmapData, { parentElement: '#top-left' });
     arcDiagrams = new arcDiagram(data, { parentElement: '#top-right' });
+
+    document.getElementById("bes").addEventListener("change", arcDiagrams.updateSea(data));
   })
   .catch(error => console.error(error));
 
