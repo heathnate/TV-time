@@ -17,8 +17,8 @@
 <h2>Visualization Components:</h2>
 <h3>Episode Word Count (Top Left)</h3>
 <p>The heat map feature in the top left is meant to portray the frequency (per episode) at which characters are speaking. The shade of blue displayed is for easy comprehension of which characters are taking the bulk of the speaking roles in comparison to one another. One can filter the heat map with a season selector dropdown in the top left. This will update the graph to show data from Season 1, Season 2, or both. Filtering is also available through a character selection button which allows for handpicking characters to compare word frequency to one another. There are also two tooltips within this visualization. The first one displays the specific character, the selected season and episode number, and the word count for that corresponding character/episode combination. The second tooltip appears when hovering over a character on the y-axis, and shows the character name, total words spoken throughout the show, and total episodes appeared in throughout the show.</p>
-<h3>Arc Diagram (Top Right)</h3>
-<p>FILLER</p>
+<h3>Chord Diagram (Top Right)</h3>
+<p>The Chord Diagram is designed to show how much each character talks to other specific characters. when deciding between an arc diagram and a chord diagram I realized that an arc diagram only showed who talks to who, while a chord diagram offers insights on how much each character talks to others. The way to read it is that the bigger the connecting part the more those characters talked together. This also allows you to see who talked the most as the outer arc represents the total amount they talked throughout the show. Since I needed to differentiate 10 different characters I choose a rainbow color scheme as it did the best at making that many distinct colors. If you want to narrow the focus there is a selection in the top right that works the same as the heatmap, choose a season and it will update to only show that seasons data, or you can choose to have data from all the seasons.</p>
 <h3>Word Cloud (Bottom Left)</h3>
 <p>
   The word cloud is an interesting view, as it can be used to glean the most common words by a character and thus determine somewhat what type of person they are. The words are sized based on the number of times that word is said, and there are two filters included:
@@ -33,4 +33,5 @@
 <h2>Video Demo:</h2>
 <h2>Work Breakdown:</h2>
 <p>Eli Pappas - Data Import, Processing, and Cleaning, and Word Cloud<br>
-Nate Heath - UI Design and Creation, Info Dialog, and Heatmap</p>
+Nate Heath - UI Design and Creation, Info Dialog, and Heatmap
+Nick Bryant - Chord Diagram creation</p>
