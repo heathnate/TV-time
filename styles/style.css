@@ -272,7 +272,7 @@ body, html {
 
 #bottom-right :is(h1, h2, h3, h4, h5) {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin: 25px 10px 0px 10px;
+    margin: 14px 10px 0px 10px;
 }
 #bottom-right h1 {
     font-size: 2.5em;
