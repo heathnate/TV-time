@@ -9,6 +9,7 @@ const infoDialog = document.getElementById('info-dialog');
 
 let heatmap;
 let barchart;
+let arcDiagrams;
 
 let isDraggingVertical = false;
 let isDraggingHorizontal = false;

@@ -44,6 +44,54 @@
             <div id="heatmap"></div>
         </div>
         <div id="top-right">
+            <select id="season-select" class="select" onchange="arcDiagarms.updateSeason(this.value)">
+                <option value="all">All Seasons</option> 
+                <option value="season1">Season 1</option>
+                <option value="season2">Season 2</option>
+            </select>
+            <div id="arc"></div>
+            <table id="arcKey">
+                <tr>
+                    <td>Burt</td>
+                    <td style="background-color:#680000;">___</td>
+                </tr>
+                <tr>
+                    <td>Cobel</td>
+                    <td style="background-color:#ac0000;"></td>
+                </tr>
+                <tr>
+                    <td>Devon</td>
+                    <td style="background-color:#c85b00;"></td>
+                </tr>
+                <tr>
+                    <td>Dylan</td>
+                    <td style="background-color:#f98517;"></td>
+                </tr>
+                <tr>
+                    <td>Helly</td>
+                    <td style="background-color:#008c5c;"></td>
+                </tr>
+                <tr>
+                    <td>Irving</td>
+                    <td style="background-color:#33b983;"></td>
+                </tr>
+                <tr>
+                    <td>Mark</td>
+                    <td style="background-color:#002f64;"></td>
+                </tr>
+                <tr>
+                    <td>Milchick</td>
+                    <td style="background-color:#0050ae;"></td>
+                </tr>
+                <tr>
+                    <td>Reghabi</td>
+                    <td style="background-color:#9b54f3;"></td>
+                </tr>
+                <tr>
+                    <td>Ricken</td>
+                    <td style="background-color:#bf8cfc;"></td>
+                </tr>
+              </table>
         </div>
         <div id="bottom-left">
         </div>
@@ -97,7 +145,7 @@
     <script src="js/d3.v6.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1/build/d3.layout.cloud.min.js"></script> <!-- used for word cloud -->
     <script src="js/heatmap.js"></script>
-    <script src="js/arcdiagram.js"></script>
+    <script src="js/arcDiagram.js"></script>
     <script src="js/wordCloud.js"></script>
     <script src="js/barchart.js"></script>
     <script src="js/main.js"></script>
