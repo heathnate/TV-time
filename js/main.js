@@ -8,6 +8,7 @@ const infoIcon = document.getElementById('info-icon');
 const infoDialog = document.getElementById('info-dialog');
 
 let heatmap;
+let barchart;
 
 let isDraggingVertical = false;
 let isDraggingHorizontal = false;
@@ -317,6 +318,7 @@ Promise.all([
             ? totalWordCloudData // Show total word counts if "all" is selected
             : characterWordCloudData.filter(d => d.character === selectedCharacter);
         wordCloud.updateVis(filteredData);
+        barchart.updateVis(selectedCharacter);
     });
 
     // Populate the character dropdown
@@ -332,7 +334,10 @@ Promise.all([
         characterSelect.appendChild(option);
     });
 }).catch(error => console.error(error));
-
+d3.csv('data/severance_instances.csv')
+.then(data  => {
+  barchart = new Barchart(data, { parentElement: '#bottom-right', mapping: characterMapping })
+});
 // Add event listener for the "Include 'you'" toggle
 document.getElementById('include-you-toggle').addEventListener('change', () => {
     location.reload(); // Refresh the page when the toggle is changed

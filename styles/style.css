@@ -283,7 +283,6 @@ body, html {
     width: 100%;
     display: flex;
     flex-direction: row;
-    flex-grow: 1;
 }
 
 #btm-right-content>div {
@@ -293,4 +292,8 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.disabled {
+    display: none !important;
 }
