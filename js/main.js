@@ -8,6 +8,7 @@ const infoIcon = document.getElementById('info-icon');
 const infoDialog = document.getElementById('info-dialog');
 
 let heatmap;
+let arcDiagrams;
 
 let isDraggingVertical = false;
 let isDraggingHorizontal = false;

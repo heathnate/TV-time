@@ -8,13 +8,114 @@ class arcDiagram {
     initVis() {
         let vis = this;
 
+        // create a matrix
+        var matrix = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ];
+
         let a = [];
         let b = [];
-        let c = [];
         let i = 0;
         let truth = 0;
         let k = 0;
-        let arcDiagramData = [];
+
+        function pro(dex, bapple)
+        {
+            let index = 20;
+            if(dex == "Burt")
+            {
+                index = 0;
+            }
+            else if(dex == "Cobel")
+            {
+                index = 1;
+            }
+            else if(dex == "Devon")
+            {
+                index = 2;
+            }
+            else if(dex == "Dylan")
+            {
+                index = 3;
+            }
+            else if(dex == "Helly")
+            {
+                index = 4;
+            }
+            else if(dex == "Irving")
+            {
+                index = 5;
+            }
+            else if(dex == "Mark")
+            {
+                index = 6;
+            }
+            else if(dex == "Milchick")
+            {
+                index = 7;
+            }
+            else if(dex == "Reghabi")
+            {
+                index = 8;
+            }
+            else if(dex == "Ricken")
+            {
+                index = 9;
+            }
+            if(index != 20)
+            {
+                if(bapple == "Burt")
+                {
+                    matrix[index][0] += 1;
+                }
+                else if(bapple == "Cobel")
+                {
+                    matrix[index][1] += 1;
+                }
+                else if(bapple == "Devon")
+                {
+                    matrix[index][2] += 1;
+                }
+                else if(bapple == "Dylan")
+                {
+                    matrix[index][3] += 1;
+                }
+                else if(bapple == "Helly")
+                {
+                    matrix[index][4] += 1;
+                }
+                else if(bapple == "Irving")
+                {
+                    matrix[index][5] += 1;
+                }
+                else if(bapple == "Mark")
+                {
+                    matrix[index][6] += 1;
+                }
+                else if(bapple == "Milchick")
+                {
+                    matrix[index][7] += 1;
+                }
+                else if(bapple == "Reghabi")
+                {
+                    matrix[index][8] += 1;
+                }
+                else if(bapple == "Ricken")
+                {
+                    matrix[index][9] += 1;
+                }
+            }
+        }
+
         vis.data.forEach(row => {
           if(row['Season'] ==  1)
           {
@@ -31,28 +132,11 @@ class arcDiagram {
                 a[k] = row['Character'];
                 k++;
             }
-            b[i] = row['Character'];
-            c[i] = row['TalkingTo'];
+            b[i] = [row['Character'], row['TalkingTo']];
+            pro(b[i][0],b[i][1]);
             i++;
           }
         });
-        const nodes = a.map((element, index) => ({
-            id: element,
-            group: index
-        }));
-        const processb = b.map((element) => ({
-          source: element
-        }));
-        const processc = c.map((element) => ({
-          target: element
-        }));
-        for(let j = 0; j < processb.length; j++)
-        {
-          arcDiagramData[j] = [processb[j], processc[j]];
-        }
-        console.log(nodes);
-        console.log(arcDiagramData)
-        
 
         // set the dimensions and margins of the graph
         var margin = {top: 20, right: 30, bottom: 20, left: 30},
@@ -60,21 +144,20 @@ class arcDiagram {
         height = 300 - margin.top - margin.bottom;
 
         // create the svg area
-        vis.svg = d3.select("#top-right")
+        vis.svg = d3.select("#arc")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(150,150)")
 
-        // create a matrix
-        var matrix = [
-        [0,  5871, 8916, 2868, 10],
-        [ 1951, 0, 2060, 6171, 10],
-        [ 8010, 16145, 0, 8045, 10],
-        [ 1013,   990,  940, 0, 10],
-        [ 500, 500, 500, 500, 0]
-        ];
+        vis.updateVis(matrix);
+    }
+    updateVis(matrix)
+    {
+        let vis = this;
+
+        console.log(matrix);
 
         // 4 groups, so create a vector of 4 colors
         var colors = [ "#680000", "#ac0000", "#c85b00", "#f98517", "#008c5c", "#33b983", "#002f64", "#0050ae", "#9b54f3", "#bf8cfc"]
@@ -114,5 +197,143 @@ class arcDiagram {
         )
         .style("fill", function(d){ return(colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
         .style("stroke", "black");
+    }
+    // Update the heatmap data and x scale based on season selection
+    updateSeason(season) {
+        let vis = this;
+
+        // create a matrix
+        var matrix = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ];
+
+        function pro(dex, bapple)
+        {
+            let index = 20;
+            if(dex == "Burt")
+            {
+                index = 0;
+            }
+            else if(dex == "Cobel")
+            {
+                index = 1;
+            }
+            else if(dex == "Devon")
+            {
+                index = 2;
+            }
+            else if(dex == "Dylan")
+            {
+                index = 3;
+            }
+            else if(dex == "Helly")
+            {
+                index = 4;
+            }
+            else if(dex == "Irving")
+            {
+                index = 5;
+            }
+            else if(dex == "Mark")
+            {
+                index = 6;
+            }
+            else if(dex == "Milchick")
+            {
+                index = 7;
+            }
+            else if(dex == "Reghabi")
+            {
+                index = 8;
+            }
+            else if(dex == "Ricken")
+            {
+                index = 9;
+            }
+            if(index != 20)
+            {
+                if(bapple == "Burt")
+                {
+                    matrix[index][0] += 1;
+                }
+                else if(bapple == "Cobel")
+                {
+                    matrix[index][1] += 1;
+                }
+                else if(bapple == "Devon")
+                {
+                    matrix[index][2] += 1;
+                }
+                else if(bapple == "Dylan")
+                {
+                    matrix[index][3] += 1;
+                }
+                else if(bapple == "Helly")
+                {
+                    matrix[index][4] += 1;
+                }
+                else if(bapple == "Irving")
+                {
+                    matrix[index][5] += 1;
+                }
+                else if(bapple == "Mark")
+                {
+                    matrix[index][6] += 1;
+                }
+                else if(bapple == "Milchick")
+                {
+                    matrix[index][7] += 1;
+                }
+                else if(bapple == "Reghabi")
+                {
+                    matrix[index][8] += 1;
+                }
+                else if(bapple == "Ricken")
+                {
+                    matrix[index][9] += 1;
+                }
+            }
+        }
+
+        var sea;
+
+        if (season == 'all') {
+            sea = 0;
+        } else if (season == 'season1') {
+            sea = 1;
+        } else if (season == 'season2') {
+            sea = 2;
+        }
+        vis.data.forEach(row => {
+          if(row['Season'] == sea || sea == 0)
+          {
+            truth = 0;
+            for(let j = 0; j < a.length; j++)
+            {
+                if(a[j] == row['Character'])
+                {
+                    truth = 1;
+                }
+            }
+            if(truth == 0)
+            {
+                a[k] = row['Character'];
+                k++;
+            }
+            b[i] = [row['Character'], row['TalkingTo']];
+            pro(b[i][0],b[i][1]);
+            i++;
+          }
+        });
+        vis.updateVis(matrix);
     }
 }
