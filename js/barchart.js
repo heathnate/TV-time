@@ -19,7 +19,7 @@ class Barchart {
                 .attr("preserveAspectRatio", "xMidYMid meet")
                 .classed("responsive-svg", true)
             .append("g")
-                .attr("transform", `translate(${vis.margin.left},${vis.margin.top}`);
+                .attr("transform", `translate(${vis.margin.left},${vis.margin.top})`);
 
         vis.char_first = document.getElementById("character-severance-first");
         vis.char_most  = document.getElementById("character-severance-most");
