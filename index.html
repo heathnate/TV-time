@@ -44,6 +44,11 @@
             <div id="heatmap"></div>
         </div>
         <div id="top-right">
+            <select id="arc-season-select" onchange="arcDiagrams.updateSea(this.value)">
+                <option value="all">All Seasons</option> 
+                <option value="season1">Season 1</option>
+                <option value="season2">Season 2</option>
+            </select>
             <div id="arc"></div>
             <table id="arcKey">
                 <tr>
@@ -91,7 +96,7 @@
         <div id="bottom-left">
         </div>
         <div id="bottom-right">
-            <div><h3>Sever</h3> <h2>Severed </h2><h1> Severance</h1><h2> Severing</h2><h4 style="color: slategray;" id="btm-right-char-identifier">(All Characters)</h4></div>
+            <div id="bottom-right-header"><h3>Sever</h3> <h2>Severed </h2><h1> Severance</h1><h2> Severing</h2><h4 style="color: slategray;" id="btm-right-char-identifier">(All Characters)</h4></div>
             <div id="btm-right-content">
                 <div>
                     <h4>was said by </h4>

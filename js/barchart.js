@@ -7,7 +7,7 @@ class Barchart {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 50, right: 30, bottom: 50, left: 30};
+        vis.margin = {top: 10, right: 30, bottom: 50, left: 30};
 
         vis.container = document.getElementById("barchart");
         vis.width = vis.container.clientWidth - vis.margin.left - vis.margin.right;
@@ -102,7 +102,6 @@ class Barchart {
                     if (episodes[ep] > episodes[most]) most = ep;
                 });
                 most = most.substring(1).split('E');
-                console.log(episodes, most);
             }
 
             vis.char_first.innerHTML = vis.mappedName(first["Character"]);
