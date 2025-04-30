@@ -30,7 +30,8 @@
 <p>FILLER</p>
 <h2>What We Can Discover:</h2>
 <h2>Libraries Used / Code Structure / Access:</h2>
-<h2>Video Demo:</h2>
+<h2>Video Demo</h2>
+<p>https://youtu.be/h9cGTLLZmRs</p>
 <h2>Work Breakdown:</h2>
 <p>Eli Pappas - Data Import, Processing, and Cleaning, and Word Cloud<br>
 Nate Heath - UI Design and Creation, Info Dialog, and Heatmap
