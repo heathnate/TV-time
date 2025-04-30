@@ -147,7 +147,7 @@ body, html {
     z-index: 10;
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;;
+    box-sizing: border-box;
 }
 
 #character-multiselect-dropdown.hidden {
@@ -200,10 +200,17 @@ body, html {
     cursor: ns-resize;
 }
 
-#season-select {
+#heatmap-season-select {
     position: fixed;
     top: 35px;
     left: 10px;
+    margin-top: 25px;
+}
+
+#arcdiagrams-season-select {
+    position: fixed;
+    top: 35px;
+    right: 10px;
     margin-top: 25px;
 }
 
