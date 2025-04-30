@@ -99,14 +99,17 @@ body, html {
 }
 
 #bottom-right {
+    position: relative;
+    top: 0;
     grid-row: 3 / 4;
     grid-column: 3 / 4;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     overflow: hidden;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
+    flex-direction: column;
 }
 
 #character-multiselect-container {
@@ -251,4 +254,43 @@ body, html {
 
 #character-select {
     align-self: end;
+}
+
+#bottom-right>* {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: end;
+}
+#bottom-right>*>* {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+}
+
+#bottom-right :is(h1, h2, h3, h4, h5) {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 25px 10px 0px 10px;
+}
+#bottom-right h1 {
+    font-size: 2.5em;
+}
+
+#btm-right-content {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+#btm-right-content>div {
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
