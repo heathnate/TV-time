@@ -30,6 +30,7 @@
 <p>FILLER</p>
 <h2>What We Can Discover:</h2>
 <h2>Libraries Used / Code Structure / Access:</h2>
+We structured our code by having a main javascript file that did most of the data processing, and then sent the formatted data to individual javascript files for each of our four sections. Each of the four sections of our code then took the data and used it to create their visualizations. To handle updating there was onchange functions and event listeners that prompted each section reponsible to update with new relevent information.
 <h2>Video Demo</h2>
 <p>https://youtu.be/h9cGTLLZmRs</p>
 <h2>Work Breakdown:</h2>
