@@ -26,13 +26,15 @@
   to the theme of the show, but with it included it is nearly impossible to tell what the next common word is because of how this breaks the scale. So to solve that I allowed the filter to then get both sides of it. For the character filter this allows you to narrow on common
   words by each character and this can be interesting with major or minor characters to find common dialogue.
 </p>
-<h3>Undecided - EDIT ME (Bottom Right)</h3>
-<p>FILLER</p>
+<h3>Barchart and First/Most/Last (Bottom Right)</h3>
+<p>This data visualization allows the user to see when Severance is mentioned throughout the show. Both the Barchart and the First/Most/Last sections update with the same character filter as the word cloud. When filtering by a specific character, provided that character mentions severance, the visualizations recalculate their values and display the updated information. Also, when a specific character is selected, the Most display will show which episode the character mentioned severance in the most (as opposed to just the character name). One interesting thing you can find with this visualization is that despite comprising the majority of the references to Severence, Mark's lines only account for 2 of the 12 instances of Severance being said in Season 1 Episode 2, the highest count for any episode.</p>
 <h2>What We Can Discover:</h2>
+<p>One of the more interesting things we can discover with this visualization is the mismatch between character relevance and words spoken. Mark is the main character and has the most lines, but many of the other characters are just as impactful as Mark without as many lines. Another takeaway is the chracter relationships that are clearly visualized by the chord diagram. Stronger relationships tend to have a higher percentage of lines from the respective character. Though one limitation of this design is the lach of connection between 3 or more characters, since all the chords represent a pair. One of the most important relationships in the show is the dynamic of Mark, Helly, Irving, and Dylan while they are at work, which doesn't show very well on the chord diagram.</p>
 <h2>Libraries Used / Code Structure / Access:</h2>
 <h2>Video Demo</h2>
 <p>https://youtu.be/h9cGTLLZmRs</p>
 <h2>Work Breakdown:</h2>
 <p>Eli Pappas - Data Import, Processing, and Cleaning, and Word Cloud<br>
-Nate Heath - UI Design and Creation, Info Dialog, and Heatmap
-Nick Bryant - Chord Diagram creation</p>
+Nate Heath - UI Design and Creation, Info Dialog, and Heatmap<br>
+Nick Bryant - Chord Diagram creation<br>
+Freja Kahle - Transcripts, Bar chart, and First/Most/Last vis</p>
