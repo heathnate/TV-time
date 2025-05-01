@@ -35,5 +35,5 @@ We structured our code by having a main javascript file that did most of the dat
 <p>https://youtu.be/h9cGTLLZmRs</p>
 <h2>Work Breakdown:</h2>
 <p>Eli Pappas - Data Import, Processing, and Cleaning, and Word Cloud<br>
-Nate Heath - UI Design and Creation, Info Dialog, and Heatmap
+Nate Heath - UI Design and Creation, Info Dialog, and Heatmap<br>
 Nick Bryant - Chord Diagram creation</p>
