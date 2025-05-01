@@ -31,6 +31,7 @@
 <h2>What We Can Discover:</h2>
 <p>One of the more interesting things we can discover with this visualization is the mismatch between character relevance and words spoken. Mark is the main character and has the most lines, but many of the other characters are just as impactful as Mark without as many lines. Another takeaway is the chracter relationships that are clearly visualized by the chord diagram. Stronger relationships tend to have a higher percentage of lines from the respective character. Though one limitation of this design is the lach of connection between 3 or more characters, since all the chords represent a pair. One of the most important relationships in the show is the dynamic of Mark, Helly, Irving, and Dylan while they are at work, which doesn't show very well on the chord diagram.</p>
 <h2>Libraries Used / Code Structure / Access:</h2>
+We structured our code by having a main javascript file that did most of the data processing, and then sent the formatted data to individual javascript files for each of our four sections. Each of the four sections of our code then took the data and used it to create their visualizations. To handle updating there was onchange functions and event listeners that prompted each section reponsible to update with new relevent information.
 <h2>Video Demo</h2>
 <p>https://youtu.be/h9cGTLLZmRs</p>
 <h2>Work Breakdown:</h2>
